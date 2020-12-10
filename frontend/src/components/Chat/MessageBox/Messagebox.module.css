@@ -1,0 +1,5 @@
+.MessageBox {
+    max-width: 100%;
+    border-color: antiquewhite;
+    overflow-y: scroll;
+}

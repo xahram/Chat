@@ -31,7 +31,7 @@ const Login: React.FC<{ logInHandler: any, isAuthenticated: boolean, history: an
             <TextField value={password} onChange={setPasswordHandler} color="secondary" inputProps={inputprops} id="password" label="Password" />
             <Button type='submit' variant="contained" color="primary">
                 Submit</Button>
-            <Typography color='textSecondary' variant="h5">Already have an Account? <NavLink to="/sign-up">Click Here</NavLink> </Typography >
+            <Typography color='textSecondary' variant="h5">Don't have an Account? <NavLink to="/sign-up">Click Here</NavLink> </Typography >
         </form>
 
     </div>);
