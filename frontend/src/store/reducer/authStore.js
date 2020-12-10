@@ -1,8 +1,8 @@
 import * as actionTypes from '../actionTypes'
 const initialState = {
     isAuthenticated: false,
-    userId: null,
-    username: null,
+    userId: "",
+    username: "",
     error: false
 }
 

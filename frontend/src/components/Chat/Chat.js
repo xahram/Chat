@@ -1,20 +1,44 @@
 import React from 'react';
-import { InputGroup, FormControl, Button } from 'react-bootstrap'
 import Messagebox from './MessageBox/Messagebox';
 import classes from './Chat.module.css';
+import {connect} from "react-redux"
+import useOnChange from '../../hooks/useOnChange'
+import socketClient from "socket.io-client"
+const SERVER = "http://localhost:8000";
 
-export default class Chat extends React.Component {
-    
-    render() {
-        return (<div className={classes.Chat}>
-            <Messagebox />
-            <InputGroup>
-                <FormControl placeholder="Write Text Here" as="textarea" aria-label="With textarea" />
-                <InputGroup.Append>
-                    <Button variant="outline-secondary">Button</Button>
-                </InputGroup.Append>
-            </InputGroup>
-        </div>
-        );
+
+const Chat = (props) => {
+    const [state, setstate] = React.useState({
+        messages: []
+    })
+    const [value, setvalue] = useOnChange("")
+    const socket = socketClient(SERVER)
+    React.useEffect(() => {
+        socket.on("connection", (data) => {
+            console.log("run",data)
+        })
+    }, [])
+
+
+    const onClickHandler = () => {
+        socket.emit("new_message", { username: props.username, message: value })
+    }
+
+    socket.on("receive_messages", (messages) => {
+        console.log(messages)
+        setstate({ messages: messages })
+    })
+    return (<div className={classes.Chat}>
+        <Messagebox messages={state.messages} />
+        <input onChange={setvalue} value={value} type="text" />‍
+        <button onClick={onClickHandler}>Send</button>‍
+    </div>
+    );
+
+}
+const mapStateToProps = (state)=>{
+    return {
+        username:state.username
     }
 }
+export default connect(mapStateToProps)(Chat)

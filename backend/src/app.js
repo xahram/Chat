@@ -34,9 +34,17 @@ app.use('/api/v1', authRouter);
 app.use('/api/v1', searchRouter);
 
 let numberOfUsers = 0
+let messages = []
 io.on("connection", (socket) => {
     ++numberOfUsers
+    console.log("new User")
     socket.emit("connection", { numberOfUsers })
+    socket.on("new_message", (message) => {
+        console.log("one ", message)
+        messages = messages.concat({ username: message.username, message: message.message })
+        socket.broadcast.emit('receive_messages', messages);
+        console.log(messages);
+    })
 })
 
 
